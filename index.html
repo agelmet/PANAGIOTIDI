@@ -9,6 +9,11 @@
     <meta name="author" content="Advon Media">
     <meta name="robots" content="index, follow">
     
+    <link rel="icon" href="art/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="art/apple-touch-icon.png">
+    <meta name="theme-color" content="#0F4A55">
+    <link rel="preload" as="image" href="art/logo.webp">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -21,13 +26,16 @@
                 extend: {
                     colors: {
                         lux: {
-                            light: '#FAF5F0',     /* Warm, crisp, slightly brighter base */
-                            cream: '#EADCD3',     /* Richer cream for contrast */
-                            dark: '#241715',      /* Deep espresso/charcoal for striking text */
-                            primary: '#A33B39',   /* Intense Garnet/Crimson - vibrant, warm, luxurious */
-                            accent: '#3A5A67',    /* Deep Slate Teal - calm, grounded balance */
-                            clay: '#C26D5C',      /* Intense Terracotta / Warm Coral */
-                            sand: '#D4C5BB',      /* Structured borders */
+                            light: '#F7F1E8',     /* Paper cream, straight from the logo card */
+                            cream: '#EDE2D3',     /* Deeper cream for banded sections */
+                            dark: '#13272C',      /* Deep teal ink for body copy */
+                            primary: '#0F4A55',   /* Brand deep teal - the wordmark colour */
+                            accent: '#1B6A78',    /* Mid teal - secondary emphasis */
+                            clay: '#7D5C28',      /* Gold, dark enough to read as small text */
+                            gold: '#A47D45',      /* Gold for icons and rules - passes 3:1 */
+                            glow: '#C9A96A',      /* Light gold for dark grounds */
+                            deep: '#0B373F',      /* Darkest teal - footer ground */
+                            sand: '#DDD0BC',      /* Structured borders */
                             white: '#FFFFFF'
                         }
                     },
@@ -36,8 +44,8 @@
                         serif: ['Cinzel', 'serif'],
                     },
                     boxShadow: {
-                        'glass': '0 10px 40px -10px rgba(163, 59, 57, 0.08)',
-                        'glow': '0 0 40px -10px rgba(194, 109, 92, 0.3)',
+                        'glass': '0 10px 40px -10px rgba(15, 74, 85, 0.10)',
+                        'glow': '0 0 40px -10px rgba(176, 141, 88, 0.32)',
                     },
                     animation: {
                         'fade-in-up': 'fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
@@ -71,16 +79,81 @@
     <style>
         /* Smooth Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #FAF5F0; }
-        ::-webkit-scrollbar-thumb { background: #C26D5C; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #A33B39; }
+        ::-webkit-scrollbar-track { background: #F7F1E8; }
+        ::-webkit-scrollbar-thumb { background: #B08D58; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:active { background: #0F4A55; }
+        ::-webkit-scrollbar-thumb:hover { background: #0F4A55; }
 
         body {
-            background-color: #FAF5F0;
-            color: #241715;
+            background-color: #F7F1E8;
+            color: #13272C;
         }
 
         .tracking-widest-plus { letter-spacing: 0.15em; }
+
+        /* ───── Painterly layers ─────────────────────────────────────────
+           Original watercolour blooms and brush drags, generated in the
+           brand palette. Every one is decorative, faint and inert.        */
+        .art {
+            position: absolute;
+            pointer-events: none;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            z-index: 0;
+        }
+        .art-teal   { background-image: url('art/wash-teal.webp'); }
+        .art-gold   { background-image: url('art/wash-gold.webp'); }
+        .art-clay   { background-image: url('art/wash-clay.webp'); }
+        .art-stroke { background-image: url('art/stroke-teal.webp'); }
+        .art-strokeg{ background-image: url('art/stroke-gold.webp'); }
+        .art-band   { background-image: url('art/band-teal.webp'); }
+        .art-mark   { background-image: url('art/mark-gold.webp'); background-size: contain; }
+
+        /* line motifs — brushes and paint, drawn in the same hairline
+           gold as the lighthouse in the logo                            */
+        .art-line {
+            position: absolute;
+            pointer-events: none;
+            color: #B08D58;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.9;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            vector-effect: non-scaling-stroke;
+            z-index: 0;
+        }
+
+        /* canvas tooth over the whole page */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url('art/canvas-grain.webp');
+            background-size: 256px 256px;
+            opacity: 0.45;
+            mix-blend-mode: multiply;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .above-art { position: relative; z-index: 2; }
+
+        /* the logo itself */
+        .brand-logo { height: 38px; width: auto; display: block; }
+        @media (min-width: 768px) { .brand-logo { height: 46px; } }
+
+        @media (max-width: 1023px) {
+            .art { opacity: 0.42 !important; }
+            .art-line { opacity: 0.5 !important; }
+            body::before { opacity: 0.3; }
+        }
+        @media (max-width: 640px) {
+            .art { opacity: 0.32 !important; }
+            .art-xl { display: none; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .animate-float, .animate-slow-zoom { animation: none !important; }
+        }
         
         /* Reveal Animations via IntersectionObserver */
         .reveal { opacity: 0; transform: translateY(40px); transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -91,26 +164,26 @@
 
         /* Luxurious Light Glassmorphism with intense touches */
         .glass-nav {
-            background: rgba(250, 245, 240, 0.9);
+            background: rgba(247, 241, 232, 0.88);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(194, 109, 92, 0.2);
-            box-shadow: 0 4px 30px rgba(163, 59, 57, 0.05);
+            border-bottom: 1px solid rgba(176, 141, 88, 0.2);
+            box-shadow: 0 4px 30px rgba(15, 74, 85, 0.05);
         }
 
         .glass-card {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(194, 109, 92, 0.2);
+            border: 1px solid rgba(176, 141, 88, 0.2);
             transition: all 0.5s ease;
-            box-shadow: 0 10px 40px -10px rgba(36, 23, 21, 0.05);
+            box-shadow: 0 10px 40px -10px rgba(19, 39, 44, 0.05);
         }
         
         .glass-card:hover {
             transform: translateY(-5px);
-            border-color: rgba(163, 59, 57, 0.5);
-            box-shadow: 0 20px 40px -10px rgba(163, 59, 57, 0.15), 0 0 30px -10px rgba(194, 109, 92, 0.2);
+            border-color: rgba(15, 74, 85, 0.5);
+            box-shadow: 0 20px 40px -10px rgba(15, 74, 85, 0.15), 0 0 30px -10px rgba(176, 141, 88, 0.2);
             background: rgba(255, 255, 255, 0.95);
         }
 
@@ -133,28 +206,28 @@
             content: '';
             position: absolute;
             inset: -15px;
-            border: 2px solid rgba(194, 109, 92, 0.4);
+            border: 2px solid rgba(176, 141, 88, 0.4);
             z-index: -1;
             transition: all 0.8s ease;
         }
         .portrait-frame:hover::before {
             inset: -5px;
-            background: rgba(194, 109, 92, 0.1);
-            border-color: rgba(163, 59, 57, 0.8);
+            background: rgba(176, 141, 88, 0.1);
+            border-color: rgba(15, 74, 85, 0.8);
         }
         
         /* Editorial Styling for Tags */
         .editorial-tag {
             display: inline-block;
             padding: 0.4rem 1rem;
-            background: #FDFBFA;
-            color: #A33B39;
+            background: #FFFDF9;
+            color: #0F4A55;
             font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             border-radius: 9999px;
-            border: 1px solid rgba(194, 109, 92, 0.3);
+            border: 1px solid rgba(176, 141, 88, 0.3);
             margin: 0.25rem;
             box-shadow: 0 2px 10px rgba(0,0,0,0.02);
         }
@@ -163,14 +236,51 @@
 </head>
 <body class="font-sans antialiased overflow-x-hidden selection:bg-lux-clay selection:text-lux-white">
 
+    <!-- Hairline drawings of the studio's materials, reused as watermarks -->
+    <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+        <symbol id="ico-brush" viewBox="0 0 120 210">
+            <path d="M60 6 C 56 42, 55 72, 56 98"/>
+            <path d="M60 6 C 64 42, 65 72, 64 98"/>
+            <path d="M52 98 L68 98 L66.5 122 L53.5 122 Z"/>
+            <path d="M53 110 L67 110"/>
+            <path d="M53.5 122 C 47 150, 51 178, 60 202 C 69 178, 73 150, 66.5 122"/>
+            <path d="M58 128 C 56 152, 57 176, 60 196"/>
+            <path d="M63 129 C 64 152, 63 175, 60 196"/>
+        </symbol>
+        <symbol id="ico-palette" viewBox="0 0 200 152">
+            <path d="M20 76 C 13 34, 60 10, 105 12 C 153 14, 187 43, 185 77 C 183 106, 156 113, 139 106 C 125 100, 114 108, 118 120 C 123 135, 106 143, 86 140 C 51 135, 26 111, 20 76 Z"/>
+            <ellipse cx="60" cy="103" rx="13" ry="9"/>
+            <circle cx="62" cy="47" r="8"/>
+            <circle cx="95" cy="36" r="8"/>
+            <circle cx="128" cy="45" r="8"/>
+            <circle cx="150" cy="72" r="8"/>
+        </symbol>
+        <symbol id="ico-tube" viewBox="0 0 120 200">
+            <path d="M44 24 L76 24 L76 44 L44 44 Z"/>
+            <path d="M52 6 L68 6 L68 24 L52 24 Z"/>
+            <path d="M44 44 C 40 92, 38 140, 40 178 L80 178 C 82 140, 80 92, 76 44"/>
+            <path d="M40 178 L80 178"/>
+            <path d="M46 190 L74 190"/>
+            <path d="M40 178 L46 190 M80 178 L74 190"/>
+            <path d="M48 70 C 60 66, 68 72, 74 70"/>
+        </symbol>
+        <symbol id="ico-jar" viewBox="0 0 140 190">
+            <path d="M40 60 L100 60 L104 172 C 104 180, 96 184, 70 184 C 44 184, 36 180, 36 172 Z"/>
+            <path d="M38 84 C 56 76, 84 92, 102 84"/>
+            <path d="M46 40 L94 40 L100 60 L40 60 Z"/>
+            <path d="M62 8 C 60 26, 60 34, 60 40"/>
+            <path d="M78 12 C 80 28, 80 34, 80 40"/>
+            <path d="M62 8 C 68 4, 74 6, 78 12"/>
+        </symbol>
+    </svg>
+
     <!-- Navigation -->
     <nav class="fixed w-full z-50 transition-all duration-500 py-6" id="navbar">
         <div class="max-w-7xl mx-auto px-6">
             <div class="rounded-none flex justify-between items-center px-4 md:px-8 py-4 transition-all duration-500" id="nav-inner">
                 <!-- Elegant Text Logo -->
-                <a href="#" class="flex flex-col group">
-                    <span class="font-serif text-xl md:text-2xl tracking-widest text-lux-dark uppercase group-hover:text-lux-primary transition-colors">Τζίνα Παναγιωτίδη</span>
-                    <span class="text-[10px] md:text-xs tracking-widest-plus text-lux-clay uppercase mt-1 font-bold">Ψυχοθεραπευτρια</span>
+                <a href="#" class="flex items-center group" aria-label="Τζίνα Παναγιωτίδη — Αρχική">
+                    <img src="art/logo.webp" alt="Τζίνα Παναγιωτίδη — Psychotherapy Studio" class="brand-logo transition-opacity group-hover:opacity-80" width="900" height="190">
                 </a>
                 
                 <div class="hidden lg:flex items-center space-x-10">
@@ -202,26 +312,28 @@
 
     <!-- Hero Section -->
     <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-lux-light">
-        <!-- Space Background Image (Zoomed out on Mobile) -->
-        <div class="absolute inset-0 z-0">
-            <!-- Using bg-contain on mobile aligned top so the entire image is visible, cover on desktop -->
-            <div class="w-full h-full bg-center bg-no-repeat animate-slow-zoom md:bg-cover max-md:bg-contain max-md:bg-top opacity-90" style="background-image: url('https://github.com/agelmet/STREKLA/blob/main/1000016500.jpg?raw=true');"></div>
+        <!-- Painted ground: washes of teal and gold on paper -->
+        <div class="absolute inset-0 z-0 overflow-hidden">
+            <div class="art art-teal art-xl animate-slow-zoom" style="bottom:-30%; left:-20%; width:70%; height:76%; opacity:.30;"></div>
+            <div class="art art-gold art-xl animate-float"     style="top:-22%; right:-16%;  width:64%; height:70%; opacity:.34;"></div>
+            <div class="art art-clay"                          style="top:34%;  left:16%;    width:40%; height:44%; opacity:.14;"></div>
+            <div class="art art-band"                          style="bottom:20%; left:-8%;  width:74%; height:22%; opacity:.10;"></div>
+            <div class="art art-mark  animate-float"           style="bottom:12%; right:6%;  width:15%; height:30%; opacity:.20;"></div>
+            <svg class="art-line animate-float hidden md:block" style="top:15%; right:9%; width:74px; height:220px; opacity:0.5; transform:rotate(14deg);" viewBox="0 0 120 210" aria-hidden="true"><use href="#ico-brush"/></svg>
+            <svg class="art-line" style="bottom:13%; left:5%; width:200px; height:152px; opacity:0.45; transform:rotate(-8deg);" viewBox="0 0 200 152" aria-hidden="true"><use href="#ico-palette"/></svg>
         </div>
-        
-        <!-- Bright, Warm Gradient Overlays to make the intense text pop -->
-        <!-- On mobile, a stronger gradient at the top to blend the bg-contain edge if necessary -->
-        <div class="absolute inset-0 bg-lux-light/80 backdrop-blur-[2px] z-10 max-md:bg-gradient-to-b max-md:from-transparent max-md:via-lux-light/90 max-md:to-lux-light"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-lux-light via-lux-light/40 to-transparent z-10"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-lux-light via-lux-light/25 to-lux-light/55 z-10"></div>
 
         <div class="relative z-20 max-w-5xl mx-auto px-6 w-full text-center flex flex-col items-center mt-10 md:mt-0">
             <div class="mb-8 opacity-0 animate-fade-in-up" style="animation-delay: 0.2s;">
-                <span class="inline-block py-1.5 px-6 border border-lux-primary/40 text-lux-primary text-xs tracking-widest uppercase font-bold bg-white/70 backdrop-blur-sm rounded-full shadow-sm">
+                <span class="inline-flex items-center gap-2 py-1.5 px-6 border border-lux-gold/50 text-lux-primary text-xs tracking-widest uppercase font-bold bg-white/75 backdrop-blur-sm rounded-full shadow-sm">
+                    <span class="w-1.5 h-1.5 rounded-full bg-lux-gold"></span>
                     Σύμβουλος Ψυχικής Υγείας
                 </span>
             </div>
             
             <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif text-lux-dark leading-tight mb-8 opacity-0 drop-shadow-sm animate-fade-in-up" style="animation-delay: 0.4s;">
-                Γεφυρώνοντας τον Νου με το <span class="italic text-lux-primary font-semibold">Συναίσθημα.</span>
+                Γεφυρώνοντας τον Νου με το <span class="italic text-lux-primary font-semibold relative inline-block">Συναίσθημα.<span class="art art-strokeg" style="left:-6%; width:112%; bottom:-20%; height:52%; opacity:.65;"></span></span>
             </h1>
             
             <p class="text-base md:text-lg text-lux-dark/80 max-w-3xl font-medium leading-relaxed mb-12 opacity-0 animate-fade-in-up" style="animation-delay: 0.6s;">
@@ -229,27 +341,29 @@
             </p>
             
             <div class="opacity-0 flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in-up" style="animation-delay: 0.8s;">
-                <a href="#contact" class="group relative inline-flex items-center justify-center px-10 py-4 bg-lux-primary text-lux-white text-sm tracking-widest font-bold uppercase overflow-hidden transition-all hover:bg-lux-dark shadow-[0_10px_30px_rgba(163,59,57,0.3)] hover:shadow-xl">
+                <a href="#contact" class="group relative inline-flex items-center justify-center px-10 py-4 bg-lux-primary text-lux-white text-sm tracking-widest font-bold uppercase overflow-hidden transition-all hover:bg-lux-dark shadow-[0_14px_34px_rgba(15,74,85,0.28)] hover:shadow-xl">
                     <span class="relative z-10 flex items-center gap-3">
                         ΚΛΕΙΣΤΕ ΡΑΝΤΕΒΟΥ
                     </span>
                 </a>
-                <a href="#approach" class="inline-flex items-center justify-center px-10 py-4 bg-white border-2 border-lux-clay text-lux-primary text-sm tracking-widest font-bold uppercase transition-all hover:bg-lux-clay hover:text-lux-white shadow-sm">
+                <a href="#approach" class="inline-flex items-center justify-center px-10 py-4 bg-white/80 border-2 border-lux-gold text-lux-primary text-sm tracking-widest font-bold uppercase transition-all hover:bg-lux-primary hover:border-lux-primary hover:text-lux-white shadow-sm">
                     ΑΝΑΚΑΛΥΨΤΕ ΤΗΝ ΠΡΟΣΕΓΓΙΣΗ
                 </a>
             </div>
         </div>
         
         <!-- Scroll indicator -->
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 flex flex-col items-center gap-2 opacity-0 animate-fade-in-up" style="animation-delay: 1s;">
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 hidden lg:flex flex-col items-center gap-2 opacity-0 animate-fade-in-up" style="animation-delay: 1s;">
             <span class="text-[10px] text-lux-primary font-bold uppercase tracking-widest">Ανακαλυψτε</span>
             <div class="w-px h-12 bg-gradient-to-b from-lux-primary to-transparent"></div>
         </div>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="py-32 px-6 relative z-20 bg-lux-cream">
-        <div class="max-w-7xl mx-auto">
+    <section id="about" class="py-32 px-6 relative z-20 bg-lux-cream overflow-hidden">
+        <div class="art art-gold art-xl" style="top:-12%; right:-12%; width:54%; height:64%; opacity:.30;"></div>
+        <div class="art art-teal art-xl" style="bottom:-18%; left:-14%; width:50%; height:58%; opacity:.22;"></div>
+        <div class="max-w-7xl mx-auto relative z-10">
             <div class="grid lg:grid-cols-2 gap-20 items-center">
                 
                 <!-- Portrait -->
@@ -257,6 +371,7 @@
                     <div class="relative w-full max-w-md portrait-frame animate-float">
                         <img src="tzina-portrait.webp" srcset="tzina-portrait-sm.webp 450w, tzina-portrait.webp 900w" sizes="(max-width: 1024px) 90vw, 448px" width="900" height="1080" alt="Τζίνα Παναγιωτίδη, Ψυχοθεραπεύτρια" class="w-full h-auto object-cover filter contrast-105 shadow-2xl" loading="lazy" decoding="async">
                         <div class="absolute inset-0 bg-lux-primary/5 mix-blend-multiply"></div>
+                        <div class="art art-strokeg" style="left:-12%; right:-12%; width:124%; bottom:-9%; height:22%; opacity:.5;"></div>
                     </div>
                 </div>
 
@@ -275,7 +390,7 @@
                             "Η πολυετής κλινική μου εμπειρία μου έχει προσφέρει σταθερότητα, ριζωμένη ενσυναίσθηση και μηδενική διάθεση επίκρισης."
                         </blockquote>
                         <p>
-                            Σήμερα, στο ιδιωτικό της γραφείο αλλά και διαδικτυακά, υποστηρίζει ενήλικες και ομάδες που παλεύουν με αγχώδεις διαταραχές, burnout, μετατραυματικό στρες (PTSD), κατάθλιψη και διαταραχές προσωπικότητας. Με την εμπιστοσύνη των θεραπευόμενών της να αποτυπώνεται ήδη σε δεκάδες εξαιρετικές συστάσεις (21+), η παρέμβασή της ξεχωρίζει χάρη σε ένα πανίσχυρο εργαλείο: την <strong>Εικαστική Ψυχοθεραπεία</strong>.
+                            Σήμερα, στο ιδιωτικό της γραφείο αλλά και διαδικτυακά, υποστηρίζει ενήλικες και ομάδες που παλεύουν με αγχώδεις διαταραχές, burnout, μετατραυματικό στρες (PTSD), κατάθλιψη και διαταραχές προσωπικότητας. Με την εμπιστοσύνη των θεραπευόμενών της να αποτυπώνεται ήδη σε δεκάδες εξαιρετικές αξιολογήσεις, η παρέμβασή της ξεχωρίζει χάρη σε ένα πανίσχυρο εργαλείο: την <strong>Εικαστική Ψυχοθεραπεία</strong>.
                         </p>
                     </div>
                 </div>
@@ -284,12 +399,19 @@
     </section>
 
     <!-- Services Section -->
-    <section id="services" class="py-32 px-6 bg-lux-light relative border-y border-lux-sand">
-        <div class="max-w-7xl mx-auto">
+    <section id="services" class="py-32 px-6 bg-lux-light relative border-y border-lux-sand overflow-hidden">
+        <div class="art art-band" style="top:2%; left:-8%; width:70%; height:22%; opacity:.13;"></div>
+        <div class="art art-clay art-xl" style="bottom:-10%; right:-12%; width:48%; height:46%; opacity:.24;"></div>
+        <div class="art art-teal art-xl" style="top:26%; left:-16%; width:40%; height:40%; opacity:.16;"></div>
+        <svg class="art-line hidden sm:block" style="top:3%; left:4%; width:72px; height:212px; opacity:0.46; transform:rotate(-14deg);" viewBox="0 0 120 210" aria-hidden="true"><use href="#ico-brush"/></svg>
+        <svg class="art-line hidden sm:block" style="top:4%; right:4%; width:92px; height:154px; opacity:0.42; transform:rotate(11deg);" viewBox="0 0 120 200" aria-hidden="true"><use href="#ico-tube"/></svg>
+        <div class="max-w-7xl mx-auto relative z-10">
             <div class="text-center mb-20 reveal">
                 <span class="text-lux-primary tracking-widest text-xs uppercase mb-4 block font-bold">Εξειδικευμενες Υπηρεσιες</span>
                 <h2 class="text-3xl md:text-5xl font-serif text-lux-dark">Πώς Μπορώ να Βοηθήσω</h2>
-                <div class="w-16 h-1 bg-lux-primary mx-auto mt-8 rounded-full"></div>
+                <div class="relative w-40 h-6 mx-auto mt-6">
+                    <div class="art art-stroke" style="inset:0; width:100%; height:100%; opacity:.55;"></div>
+                </div>
             </div>
 
             <div class="grid md:grid-cols-2 gap-8">
@@ -356,7 +478,8 @@
                 <!-- 5th Service: Το δέντρο της ζωής μου (Intergenerational Trauma) - FULL WIDTH -->
                 <div class="glass-card p-8 md:p-12 reveal group rounded-2xl md:col-span-2 border-t-4 border-t-lux-primary overflow-hidden relative shadow-lg">
                     <!-- Decorative Background element -->
-                    <div class="absolute -right-20 -top-20 w-64 h-64 bg-lux-primary/5 rounded-full blur-[80px] pointer-events-none"></div>
+                    <div class="art art-teal" style="top:-18%; right:-14%; width:46%; height:56%; opacity:.13;"></div>
+                    <div class="art art-mark" style="bottom:4%; right:2%; width:12%; height:26%; opacity:.10;"></div>
                     
                     <div class="flex items-center gap-4 mb-10">
                         <div class="w-14 h-14 bg-lux-primary shadow-md flex items-center justify-center text-white rounded-xl shrink-0">
@@ -446,7 +569,7 @@
                                     </div>
                                     <div class="p-4 bg-white rounded-xl shadow-sm border border-lux-cream">
                                         <h5 class="font-serif text-lux-primary font-bold mb-2">3. Η αυτοθυσία των γυναικών</h5>
-                                        <p class="text-sm text-lux-dark/80 font-medium">Σε μια οικογένεια οι γυναίκες μάθαιναν ότι αξίζουν μόνο όταν φροντίζουν όλους τους άλλους. Η εγγονή μεγαλώνει believing ότι πρέπει πάντα να σώζει, να δίνει και να εξαντλείται για να αγαπηθεί.</p>
+                                        <p class="text-sm text-lux-dark/80 font-medium">Σε μια οικογένεια οι γυναίκες μάθαιναν ότι αξίζουν μόνο όταν φροντίζουν όλους τους άλλους. Η εγγονή μεγαλώνει πιστεύοντας ότι πρέπει πάντα να σώζει, να δίνει και να εξαντλείται για να αγαπηθεί.</p>
                                     </div>
                                     <div class="p-4 bg-white rounded-xl shadow-sm border border-lux-cream">
                                         <h5 class="font-serif text-lux-primary font-bold mb-2">4. Ο θυμός που δεν επιτρεπόταν</h5>
@@ -505,13 +628,18 @@
 
     <!-- Approach Section -->
     <section id="approach" class="py-32 px-6 bg-lux-cream relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-lux-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
-        <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-lux-clay/5 rounded-full blur-[100px] pointer-events-none"></div>
+        <div class="art art-teal art-xl" style="top:-16%; right:-14%; width:58%; height:64%; opacity:.26;"></div>
+        <div class="art art-gold art-xl" style="bottom:-20%; left:-16%; width:58%; height:62%; opacity:.30;"></div>
+        <div class="art art-clay" style="top:34%; left:26%; width:42%; height:44%; opacity:.12;"></div>
+        <svg class="art-line hidden lg:block" style="top:26%; left:2%; width:216px; height:164px; opacity:0.42; transform:rotate(-6deg);" viewBox="0 0 200 152" aria-hidden="true"><use href="#ico-palette"/></svg>
+        <svg class="art-line hidden lg:block" style="top:52%; right:2%; width:78px; height:230px; opacity:0.42; transform:rotate(16deg);" viewBox="0 0 120 210" aria-hidden="true"><use href="#ico-brush"/></svg>
         
         <div class="max-w-4xl mx-auto relative z-10">
             <div class="text-center mb-16 reveal">
                 <h2 class="text-3xl md:text-5xl font-serif text-lux-dark mb-6">Όταν Στερεύουν οι Λέξεις: <br><span class="text-lux-primary italic">Η Τέχνη ως Θεραπευτικός "Καθρέφτης"</span></h2>
-                <div class="w-px h-16 bg-lux-primary mx-auto"></div>
+                <div class="relative w-32 h-5 mx-auto">
+                    <div class="art art-strokeg" style="inset:0; width:100%; height:100%; opacity:.6;"></div>
+                </div>
             </div>
 
             <div class="space-y-8 text-base text-lux-dark/90 font-medium leading-relaxed reveal delay-100">
@@ -554,8 +682,12 @@
     </section>
 
     <!-- Roadmap / Therapeutic Journey FAQ -->
-    <section class="py-24 px-6 bg-lux-light border-y border-lux-sand">
-        <div class="max-w-4xl mx-auto reveal">
+    <section class="py-24 px-6 bg-lux-light border-y border-lux-sand relative overflow-hidden">
+        <div class="art art-clay art-xl" style="top:-14%; left:-12%; width:46%; height:54%; opacity:.22;"></div>
+        <div class="art art-teal art-xl" style="bottom:-16%; right:-12%; width:46%; height:54%; opacity:.20;"></div>
+        <svg class="art-line hidden lg:block" style="top:16%; right:4%; width:104px; height:172px; opacity:0.40; transform:rotate(-10deg);" viewBox="0 0 120 200" aria-hidden="true"><use href="#ico-tube"/></svg>
+        <svg class="art-line hidden lg:block" style="bottom:12%; left:3%; width:118px; height:160px; opacity:0.36; transform:rotate(7deg);" viewBox="0 0 140 190" aria-hidden="true"><use href="#ico-jar"/></svg>
+        <div class="max-w-4xl mx-auto reveal relative z-10">
             <h2 class="text-2xl font-serif text-lux-primary font-bold mb-16 text-center uppercase tracking-widest">Η Θεραπευτικη Πορεια</h2>
             
             <div class="relative border-l-2 border-lux-clay/40 ml-4 md:ml-8 space-y-12">
@@ -609,7 +741,10 @@
 
     <!-- Reviews Section (Vertical Marquee) -->
     <section id="reviews" class="py-32 bg-lux-cream relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row gap-16 items-center lg:items-start h-auto lg:h-[800px]">
+        <div class="art art-gold art-xl" style="top:-10%; left:-14%; width:52%; height:60%; opacity:.28;"></div>
+        <div class="art art-teal art-xl" style="bottom:-16%; right:-14%; width:54%; height:60%; opacity:.22;"></div>
+        <svg class="art-line hidden md:block" style="bottom:8%; left:3%; width:134px; height:182px; opacity:0.38; transform:rotate(5deg);" viewBox="0 0 140 190" aria-hidden="true"><use href="#ico-jar"/></svg>
+        <div class="max-w-7xl mx-auto px-6 relative z-10 flex flex-col lg:flex-row gap-16 items-center lg:items-start h-auto lg:h-[800px]">
             
             <div class="lg:w-1/3 text-center lg:text-left reveal sticky top-32 z-10">
                 <h2 class="text-3xl md:text-5xl font-serif text-lux-dark mb-6">Η Φωνή των Θεραπευόμενων</h2>
@@ -618,7 +753,7 @@
                 </p>
                 <div class="flex flex-col items-center lg:items-start">
                     <a href="https://www.doctoranytime.gr/d/psychotherapeutis/panagiotidi-georgia#review-section" target="_blank" rel="noopener noreferrer" class="group flex flex-col items-center lg:items-start transition-all hover:opacity-80">
-                        <img src="https://raw.githubusercontent.com/agelmet/KARAZOLI/refs/heads/main/lgoodoc.jpg" alt="Doctoranytime" class="h-8 object-contain rounded">
+                        <img src="art/doctoranytime.jpg" alt="Doctoranytime" class="h-8 object-contain rounded" width="200" height="40" loading="lazy" decoding="async">
                         <span class="text-xs text-lux-primary mt-3 font-bold tracking-widest uppercase flex items-center gap-2">
                             Διαβαστε ολες τις κριτικες <i data-lucide="external-link" class="w-4 h-4"></i>
                         </span>
@@ -635,7 +770,7 @@
                         <!-- Review 1 -->
                         <div class="bg-white p-8 rounded-2xl shadow-md border border-lux-sand relative">
                             <div class="absolute top-8 right-8 text-lux-clay/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-[#F59E0B] mb-4">
+                            <div class="flex items-center gap-1 text-lux-gold mb-4">
                                 <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
                                 <span class="ml-2 font-serif text-lux-dark font-bold text-lg">10.0</span>
                             </div>
@@ -646,7 +781,7 @@
                         <!-- Review 2 -->
                         <div class="bg-white p-8 rounded-2xl shadow-md border border-lux-sand relative">
                             <div class="absolute top-8 right-8 text-lux-clay/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-[#F59E0B] mb-4">
+                            <div class="flex items-center gap-1 text-lux-gold mb-4">
                                 <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
                                 <span class="ml-2 font-serif text-lux-dark font-bold text-lg">10.0</span>
                             </div>
@@ -657,7 +792,7 @@
                         <!-- Review 3 -->
                         <div class="bg-white p-8 rounded-2xl shadow-md border border-lux-sand relative">
                             <div class="absolute top-8 right-8 text-lux-clay/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-[#F59E0B] mb-4">
+                            <div class="flex items-center gap-1 text-lux-gold mb-4">
                                 <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
                                 <span class="ml-2 font-serif text-lux-dark font-bold text-lg">10.0</span>
                             </div>
@@ -668,7 +803,7 @@
                         <!-- Review 4 -->
                         <div class="bg-white p-8 rounded-2xl shadow-md border border-lux-sand relative">
                             <div class="absolute top-8 right-8 text-lux-clay/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-[#F59E0B] mb-4">
+                            <div class="flex items-center gap-1 text-lux-gold mb-4">
                                 <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
                                 <span class="ml-2 font-serif text-lux-dark font-bold text-lg">10.0</span>
                             </div>
@@ -679,7 +814,7 @@
                         <!-- Review 5 -->
                         <div class="bg-white p-8 rounded-2xl shadow-md border border-lux-sand relative">
                             <div class="absolute top-8 right-8 text-lux-clay/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-[#F59E0B] mb-4">
+                            <div class="flex items-center gap-1 text-lux-gold mb-4">
                                 <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
                                 <span class="ml-2 font-serif text-lux-dark font-bold text-lg">10.0</span>
                             </div>
@@ -690,7 +825,7 @@
                         <!-- Review 6 -->
                         <div class="bg-white p-8 rounded-2xl shadow-md border border-lux-sand relative">
                             <div class="absolute top-8 right-8 text-lux-clay/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-[#F59E0B] mb-4">
+                            <div class="flex items-center gap-1 text-lux-gold mb-4">
                                 <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
                                 <span class="ml-2 font-serif text-lux-dark font-bold text-lg">10.0</span>
                             </div>
@@ -701,7 +836,7 @@
                         <!-- Review 7 -->
                         <div class="bg-white p-8 rounded-2xl shadow-md border border-lux-sand relative">
                             <div class="absolute top-8 right-8 text-lux-clay/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-[#F59E0B] mb-4">
+                            <div class="flex items-center gap-1 text-lux-gold mb-4">
                                 <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
                                 <span class="ml-2 font-serif text-lux-dark font-bold text-lg">10.0</span>
                             </div>
@@ -715,7 +850,7 @@
                          <!-- Reviews duplicated for seamless loop -->
                          <div class="bg-white p-8 rounded-2xl shadow-md border border-lux-sand relative">
                             <div class="absolute top-8 right-8 text-lux-clay/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-[#F59E0B] mb-4">
+                            <div class="flex items-center gap-1 text-lux-gold mb-4">
                                 <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
                                 <span class="ml-2 font-serif text-lux-dark font-bold text-lg">10.0</span>
                             </div>
@@ -725,7 +860,7 @@
 
                         <div class="bg-white p-8 rounded-2xl shadow-md border border-lux-sand relative">
                             <div class="absolute top-8 right-8 text-lux-clay/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-[#F59E0B] mb-4">
+                            <div class="flex items-center gap-1 text-lux-gold mb-4">
                                 <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
                                 <span class="ml-2 font-serif text-lux-dark font-bold text-lg">10.0</span>
                             </div>
@@ -735,7 +870,7 @@
 
                         <div class="bg-white p-8 rounded-2xl shadow-md border border-lux-sand relative">
                             <div class="absolute top-8 right-8 text-lux-clay/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-[#F59E0B] mb-4">
+                            <div class="flex items-center gap-1 text-lux-gold mb-4">
                                 <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
                                 <span class="ml-2 font-serif text-lux-dark font-bold text-lg">10.0</span>
                             </div>
@@ -745,7 +880,7 @@
 
                         <div class="bg-white p-8 rounded-2xl shadow-md border border-lux-sand relative">
                             <div class="absolute top-8 right-8 text-lux-clay/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-[#F59E0B] mb-4">
+                            <div class="flex items-center gap-1 text-lux-gold mb-4">
                                 <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
                                 <span class="ml-2 font-serif text-lux-dark font-bold text-lg">10.0</span>
                             </div>
@@ -755,7 +890,7 @@
 
                         <div class="bg-white p-8 rounded-2xl shadow-md border border-lux-sand relative">
                             <div class="absolute top-8 right-8 text-lux-clay/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-[#F59E0B] mb-4">
+                            <div class="flex items-center gap-1 text-lux-gold mb-4">
                                 <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
                                 <span class="ml-2 font-serif text-lux-dark font-bold text-lg">10.0</span>
                             </div>
@@ -765,7 +900,7 @@
 
                         <div class="bg-white p-8 rounded-2xl shadow-md border border-lux-sand relative">
                             <div class="absolute top-8 right-8 text-lux-clay/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-[#F59E0B] mb-4">
+                            <div class="flex items-center gap-1 text-lux-gold mb-4">
                                 <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
                                 <span class="ml-2 font-serif text-lux-dark font-bold text-lg">10.0</span>
                             </div>
@@ -775,7 +910,7 @@
                         
                         <div class="bg-white p-8 rounded-2xl shadow-md border border-lux-sand relative">
                             <div class="absolute top-8 right-8 text-lux-clay/20"><i data-lucide="quote" class="w-12 h-12"></i></div>
-                            <div class="flex items-center gap-1 text-[#F59E0B] mb-4">
+                            <div class="flex items-center gap-1 text-lux-gold mb-4">
                                 <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
                                 <span class="ml-2 font-serif text-lux-dark font-bold text-lg">10.0</span>
                             </div>
@@ -791,60 +926,70 @@
     </section>
 
     <!-- Footer / Contact Section -->
-    <footer id="contact" class="bg-lux-light pt-32 pb-12 border-t border-lux-sand relative">
+    <footer id="contact" class="bg-lux-deep text-lux-light pt-28 pb-12 relative overflow-hidden">
+        <div class="art art-gold art-xl" style="top:-26%; right:-12%; width:54%; height:72%; opacity:.22;"></div>
+        <div class="art art-teal art-xl" style="bottom:-28%; left:-14%; width:54%; height:72%; opacity:.30;"></div>
+        <svg class="art-line" style="top:16%; right:22%; width:66px; height:200px; opacity:0.43; color:#C9A96A; transform:rotate(-14deg);" viewBox="0 0 120 210" aria-hidden="true"><use href="#ico-brush"/></svg>
+        <div class="art art-mark" style="bottom:6%; right:4%; width:14%; height:34%; opacity:.13;"></div>
+
         <div class="max-w-7xl mx-auto px-6 relative z-10">
-            <div class="grid md:grid-cols-2 lg:grid-cols-12 gap-16 mb-24">
-                
+
+            <div class="mb-20 reveal">
+                <img src="art/logo-cream.webp" alt="Τζίνα Παναγιωτίδη — Psychotherapy Studio" class="h-12 md:h-16 w-auto" width="820" height="173" loading="lazy" decoding="async">
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-12 gap-16 mb-20">
+
                 <div class="lg:col-span-5 reveal">
-                    <h3 class="text-3xl font-serif text-lux-dark mb-6">Η επούλωση ξεκινά <br><span class="italic text-lux-primary">με ένα βήμα.</span></h3>
-                    <p class="text-lux-dark/80 text-base font-medium leading-relaxed mb-10 max-w-sm">
+                    <h3 class="text-3xl font-serif text-white mb-6">Η επούλωση ξεκινά <br><span class="italic text-lux-glow">με ένα βήμα.</span></h3>
+                    <p class="text-lux-light/75 text-base font-medium leading-relaxed mb-10 max-w-sm">
                         Επικοινωνήστε μαζί μου για να ορίσουμε την πρώτη σας συνεδρία σε ένα περιβάλλον απόλυτης αποδοχής και ασφάλειας.
                     </p>
-                    <a href="https://www.doctoranytime.gr/d/psychotherapeutis/panagiotidi-georgia" target="_blank" rel="noopener" class="inline-flex items-center justify-center px-10 py-4 bg-lux-primary text-lux-white text-xs tracking-widest font-bold uppercase transition-all hover:bg-lux-dark shadow-lg hover:shadow-xl">
+                    <a href="https://www.doctoranytime.gr/d/psychotherapeutis/panagiotidi-georgia" target="_blank" rel="noopener" class="inline-flex items-center justify-center px-10 py-4 bg-lux-glow text-lux-deep text-xs tracking-widest font-bold uppercase transition-all hover:bg-white shadow-lg hover:shadow-xl">
                         Κλειστε Ραντεβου
                     </a>
                 </div>
 
                 <div class="lg:col-span-4 reveal delay-100">
-                    <h4 class="text-xs font-bold text-lux-primary tracking-widest uppercase mb-8">Στοιχεια Επικοινωνιας</h4>
-                    <ul class="space-y-6 text-base text-lux-dark/90 font-bold">
+                    <h4 class="text-xs font-bold text-lux-glow tracking-widest uppercase mb-8">Στοιχεια Επικοινωνιας</h4>
+                    <ul class="space-y-6 text-base text-lux-light/90 font-bold">
                         <li class="flex items-start gap-4 group">
-                            <i data-lucide="map-pin" class="w-5 h-5 text-lux-primary mt-0.5 shrink-0 transition-transform group-hover:scale-110"></i>
+                            <i data-lucide="map-pin" class="w-5 h-5 text-lux-glow mt-0.5 shrink-0 transition-transform group-hover:scale-110"></i>
                             <span>Πειραιάς</span>
                         </li>
                         <li class="flex items-center gap-4 group">
-                            <i data-lucide="phone" class="w-5 h-5 text-lux-primary shrink-0 transition-transform group-hover:scale-110"></i>
-                            <a href="tel:+306972883902" class="hover:text-lux-clay transition-colors">+30 697 288 3902</a>
+                            <i data-lucide="phone" class="w-5 h-5 text-lux-glow shrink-0 transition-transform group-hover:scale-110"></i>
+                            <a href="tel:+306972883902" class="hover:text-lux-glow transition-colors">+30 697 288 3902</a>
                         </li>
                         <li class="flex items-center gap-4 group">
-                            <i data-lucide="mail" class="w-5 h-5 text-lux-primary shrink-0 transition-transform group-hover:scale-110"></i>
-                            <a href="mailto:ginapanagiotidi@gmail.com" class="hover:text-lux-clay transition-colors">ginapanagiotidi@gmail.com</a>
+                            <i data-lucide="mail" class="w-5 h-5 text-lux-glow shrink-0 transition-transform group-hover:scale-110"></i>
+                            <a href="mailto:ginapanagiotidi@gmail.com" class="hover:text-lux-glow transition-colors break-all">ginapanagiotidi@gmail.com</a>
                         </li>
                     </ul>
                 </div>
 
                 <div class="lg:col-span-3 reveal delay-200">
-                    <h4 class="text-xs font-bold text-lux-primary tracking-widest uppercase mb-8">Ωραριο Λειτουργιας</h4>
-                    <ul class="space-y-4 text-base text-lux-dark/90 font-bold mb-10">
+                    <h4 class="text-xs font-bold text-lux-glow tracking-widest uppercase mb-8">Ωραριο Λειτουργιας</h4>
+                    <ul class="space-y-4 text-base text-lux-light/90 font-bold mb-10">
                         <li class="flex flex-col gap-1">
-                            <span class="uppercase tracking-widest text-[10px] text-lux-dark/60 font-bold">Δευτερα - Σαββατο</span>
+                            <span class="uppercase tracking-widest text-[10px] text-lux-light/55 font-bold">Δευτερα - Σαββατο</span>
                             <span>Κατόπιν Ραντεβού</span>
                         </li>
                     </ul>
-                    
+
                     <div class="flex gap-4">
-                        <a href="https://www.instagram.com/ginapanagiotidi_arttherapy/" target="_blank" rel="noopener" class="w-12 h-12 rounded-full border-2 border-lux-sand bg-white flex items-center justify-center hover:border-lux-primary hover:shadow-md transition-all">
-                            <img src="https://raw.githubusercontent.com/agelmet/Image-hosting-/refs/heads/main/instagram-logo-instagram-icon-transparent-free-png.png.webp" alt="Instagram" class="w-6 h-6 opacity-80 hover:opacity-100 transition-opacity">
+                        <a href="https://www.instagram.com/ginapanagiotidi_arttherapy/" target="_blank" rel="noopener" aria-label="Instagram" class="w-12 h-12 rounded-full border-2 border-white/20 bg-white/5 flex items-center justify-center hover:border-lux-glow hover:bg-white/10 transition-all">
+                            <i data-lucide="instagram" class="w-5 h-5 text-lux-glow"></i>
                         </a>
                     </div>
                 </div>
 
             </div>
 
-            <div class="border-t border-lux-sand pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-bold text-lux-dark/60 reveal">
+            <div class="border-t border-white/15 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-bold text-lux-light/55 reveal">
                 <p>&copy; 2026 Τζίνα Παναγιωτίδη. All rights reserved.</p>
                 <p>
-                    Designed by <a href="https://advonmedia.com" target="_blank" rel="noopener" class="text-lux-primary hover:text-lux-dark transition-colors uppercase tracking-widest">Advon Media</a>
+                    Designed by <a href="https://advonmedia.com" target="_blank" rel="noopener" class="text-lux-glow hover:text-white transition-colors uppercase tracking-widest">Advon Media</a>
                 </p>
             </div>
         </div>
